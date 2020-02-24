@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { IclassicComponent } from '../components/iclassic/iclassic.component';
+import { ClassicComponent } from '../components/classic/classic.component';
 
 const routes: Routes = [
-    // { path: '', redirectTo: 'classic', pathMatch: 'full'},
-    { path: '', component: IclassicComponent}
+    { path: '', redirectTo: 'classic'},
+    { path: 'classic', component: ClassicComponent},
+    { path: 'webi', component: ClassicComponent},
+    { path: 'webs', component: ClassicComponent},
+    { path: 'insights', component: ClassicComponent},
 ];
 
 @NgModule({

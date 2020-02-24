@@ -1,0 +1,58 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  [mode]="(isHandset$ | async) ? 'over' : 'side'"
+  [opened]="true">
+    <mat-toolbar>{{productName}}</mat-toolbar>
+    <mat-nav-list *ngFor="let category of categories">
+      <a mat-list-item (click)="changeCategory($event)">{{category.title}}</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <!-- <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button>
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button> -->
+      <span>{{activeCategory}}</span>
+    </mat-toolbar>
+    
+    <!-- <mat-card>damn</mat-card> -->
+    <!-- Add Content Here -->
+    
+    <!-- <div class="grid-container">
+      <h1 class="mat-h1">Dashboard</h1>
+      <mat-grid-list cols="2" rowHeight="350px">
+        <mat-grid-tile *ngFor="let card of cards" [colspan]=1 [rowspan]=1>
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                {{card.title}}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Expand</button>
+                  <button mat-menu-item>Remove</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div>Card Content Here
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div> -->
+    <!-- <mat-grid-list cols="2" rowHeight="350px">
+      <mat-grid-tile>
+        <mat-card>come on</mat-card>
+      </mat-grid-tile>
+    </mat-grid-list> -->
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
