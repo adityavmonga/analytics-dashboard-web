@@ -18,7 +18,11 @@
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <div>Card Content Here
-          <a routerLink='{{card.redirectTo}}'>{{card.title}}</a>
+            <a routerLink='{{card.redirectTo}}'>
+            <div>
+            {{card.title}}
+            </div>
+          </a>
           </div>
         </mat-card-content>
       </mat-card>

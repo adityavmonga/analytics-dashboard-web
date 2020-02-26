@@ -1,0 +1,41 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="true">
+      <mat-toolbar>
+          <mat-form-field #productForm>
+          <mat-select placeholder="Product" ngDefaultConrol [(ngModel)]="selected" (selectionChange)="productChange($event)">
+            <mat-option class="product-options"
+            *ngFor="let product of products" 
+            [value]="product.val">
+            {{product.title}}
+            </mat-option>
+            <!-- <mat-option value="classic">Classic</mat-option>
+            <mat-option value="webi">Instructor</mat-option> -->
+        </mat-select>
+        </mat-form-field>
+      </mat-toolbar>
+      <mat-nav-list [(ngModel)]="activeCategory" *ngFor="let category of categories" ngDefaultControl>
+        <a mat-list-item (click)="changeCategory($event)">{{category.title}}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <span>{{activeCategory}}</span>
+      </mat-toolbar>
+      <div style="text-align: center;">
+      <mat-form-field #metricsList>
+        <mat-select placeholder="Event Type" ngDefaultControl [(ngModel)]="activeEventType" (selectionChange)="eventlistChange($event)">
+          <mat-option *ngFor="let event of events" value="{{event.value}}">{{event.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <div [ngSwitch]="selected">
+        <app-classic *ngSwitchCase="'classic'"></app-classic>
+        <app-insights *ngSwitchCase="'insights'"></app-insights>
+      </div>
+
+      </mat-sidenav-content>
+</mat-sidenav-container>
+      
