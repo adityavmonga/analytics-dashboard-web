@@ -18,8 +18,8 @@
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <div>Card Content Here
-            <a routerLink='{{card.redirectTo}}'>
-            <div>
+            <a routerLink='{{card.redirectTo}}' [state]="{ selected: card.productName }">
+            <div (click)="sendProductName($event)">
             {{card.title}}
             </div>
           </a>

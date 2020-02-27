@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-container',
@@ -6,8 +9,10 @@ import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 	styleUrls: ['./container.component.scss']
 })
 export class ContainerComponent implements OnInit {
-	@Input() selected: string;
-	activeEventType: string;
+	selected: string;
+	activeEvent = {title:'Class Section', value: 'activity_classic_class_section_start'};
+	isEventSelected: boolean = false;
+	state: any;
 	eventlist = {
 		"Event Based": [
 			{title: 'Class Section', value: 'activity_classic_class_section_start'},
@@ -23,7 +28,7 @@ export class ContainerComponent implements OnInit {
 		]
 	};
 	events : [];
-	// selected = 'classic';
+
 	products = [
 		{title: 'Classic', val:"classic"},
 		{title: 'Instructor Web', val: "webi"},
@@ -39,7 +44,7 @@ export class ContainerComponent implements OnInit {
 		{title: '1'},
 		{title: '2'}
 	]
-	constructor() {}
+	constructor(public activatedRoute: ActivatedRoute) {}
 	
 	productChange(event) {
 		this.selected = event.value;
@@ -51,10 +56,17 @@ export class ContainerComponent implements OnInit {
 		this.events = this.eventlist[this.activeCategory];
 	}
 	eventlistChange(event){
-		this.activeEventType = event.value;
+		this.activeEvent.value = event.value;
+		// this.activeEvent.value = this.eventlist[this.activeCategory][this.activeEvent.title];
+		this.isEventSelected = true;
 	}
 
 	ngOnInit() {
+		// this.state$ = this.activatedRoute.paramMap
+		// .pipe(map(() => window.history.state));
+		this.state = history.state;
+		this.selected = this.state.selected;
+		// console.log(this.state);
 	}
 
 }

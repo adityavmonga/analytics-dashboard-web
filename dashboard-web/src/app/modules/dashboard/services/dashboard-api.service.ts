@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,12 @@ export class DashboardApiService {
     private http: HttpClient
     ) { }
 
-  getDaywise(){
-    return this.http.get<any>(this.apiDomain + this.daywiseUrl);
+  getDaywise(event_name){
+    console.log(event_name);
+    let params = new HttpParams();
+    params = params.append('event_name', event_name.toString());
+
+    return this.http.get<any>(this.apiDomain  + this.daywiseUrl, {params: params});
     
   }
 }

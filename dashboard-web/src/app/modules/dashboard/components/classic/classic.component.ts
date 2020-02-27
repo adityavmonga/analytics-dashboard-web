@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DashboardApiService } from '../../services/dashboard-api.service';
 
 @Component({
@@ -19,12 +19,14 @@ export class ClassicComponent implements OnInit{
   // ]
   chartData: any;
   dataSource: any;
-  
+  isDataAvailable: boolean = false;
+  @Input('eventName') eventName: string;
+
   constructor(private apiService: DashboardApiService) {
   }
 
   ngOnInit(){
-    this.apiService.getDaywise().subscribe((resp) => {
+    this.apiService.getDaywise(this.eventName).subscribe((resp) => {
       // console.log(resp);
       this.chartData = resp;
       console.log(this.chartData);
@@ -45,63 +47,9 @@ export class ClassicComponent implements OnInit{
         // Chart Data - from step 2
         data: this.chartData
       };
+      this.isDataAvailable = true;
     });
   }
-
-  // chartData = [
-  //   {
-  //     label: "Venezuela",
-  //     value: "290"
-  //   },
-  //   {
-  //     label: "Saudi",
-  //     value: "260"
-  //   },
-  //   {
-  //     label: "Canada",
-  //     value: "180"
-  //   },
-  //   {
-  //     label: "Iran",
-  //     value: "140"
-  //   },
-  //   {
-  //     label: "Russia",
-  //     value: "115"
-  //   },
-  //   {
-  //     label: "UAE",
-  //     value: "100"
-  //   },
-  //   {
-  //     label: "US",
-  //     value: "30"
-  //   },
-  //   {
-  //     label: "China",
-  //     value: "30"
-  //   }
-  // ];
-
-  // dataSource = {
-  //   chart: {
-  //     //Set the chart caption
-  //     caption: "Countries With Most Oil Reserves [2017-18]",
-  //     //Set the chart subcaption
-  //     subCaption: "In MMbbl = One Million barrels",
-  //     //Set the x-axis name
-  //     xAxisName: "Country",
-  //     //Set the y-axis name
-  //     yAxisName: "Reserves (MMbbl)",
-  //     numberSuffix: "K",
-  //     //Set the theme for your chart
-  //     theme: "fusion"
-  //   },
-  //   // Chart Data - from step 2
-  //   data: this.chartData
-  // };
-
-  
   
   cards = [
   { title: 'Card 1'},
