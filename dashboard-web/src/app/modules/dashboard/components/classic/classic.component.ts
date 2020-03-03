@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DashboardApiService } from '../../services/dashboard-api.service';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-classic',
@@ -7,53 +8,156 @@ import { DashboardApiService } from '../../services/dashboard-api.service';
   styleUrls: ['./classic.component.scss']
 })
 export class ClassicComponent implements OnInit{
+  highcharts = Highcharts;
   productName = 'Classic';
   categories = [
     {title: 'Event Based'},
     {title: 'Overall'},
   ]
   activeCategory = this.categories[0]['title']
-  // cards = [
-  //   {title: '1'},
-  //   {title: '2'}
-  // ]
   chartData: any;
   dataSource: any;
   isDataAvailable: boolean = false;
   @Input('eventName') eventName: string;
-
+  type: string = 'Column2d';
+  activityChartOptions: any;
+  userChartOptions: any;
+  cards = [
+    { title: 'Activity', chartOptions: this.activityChartOptions},
+    { title: 'Users', chartOptions: this.userChartOptions},
+    { title: 'Institutes', chartOptions: this.activityChartOptions},
+    { title: 'Demographics', chartOptions: this.activityChartOptions}
+  ]
+  
   constructor(private apiService: DashboardApiService) {
   }
-
-  ngOnInit(){
-    this.apiService.getDaywise(this.eventName).subscribe((resp) => {
-      // console.log(resp);
-      this.chartData = resp;
-      console.log(this.chartData);
-      this.dataSource = {
-        chart: {
-          //Set the chart caption
-          caption: "Daywise Activity",
-          //Set the chart subcaption
-          // subCaption: "In MMbbl = One Million barrels",
-          //Set the x-axis name
-          xAxisName: "Date",
-          //Set the y-axis name
-          yAxisName: "Count",
-          // numberSuffix: "k",
-          //Set the theme for your chart
-          theme: "fusion"
-        },
-        // Chart Data - from step 2
-        data: this.chartData
-      };
-      this.isDataAvailable = true;
+  
+  ngOnInit() { }
+  
+  ngOnChanges(){
+    this.plotActivity()
+    this.isDataAvailable = true;
+  };
+  
+  plotActivity() {
+    this.apiService.getActivity(this.eventName).subscribe((resp) => {
+    this.activityChartOptions = {   
+      chart: {
+        zoomType: 'x'
+      },
+      title: {
+        text: 'User Activity'
+      },
+      subtitle: {
+        text: document.ontouchstart === undefined ?
+        'Click and drag in the plot area to zoom in' :
+        'Pinch the chart to zoom in'
+      },
+      xAxis:{
+        type: 'datetime',
+        minRange: 7 * 24 * 3600000 // seven days
+      },
+      yAxis: {          
+         title:{
+          text: 'Beacons Fired'
+         } 
+      },
+      legand:{
+        enabled: false
+      },
+      // tooltip: {
+      //    valueSuffix:" °C"
+      // },
+      plotOptions : {
+         area: {
+            fillColor: {
+               linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+               stops: [
+                  [0, Highcharts.getOptions().colors[0]],
+                  [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+               ]
+            },
+            marker: {
+               radius: 2
+            },
+            lineWidth: 1,
+            states: {
+               hover: {
+                  lineWidth: 1
+               }
+            },
+            threshold: null
+         }
+      },
+      series: [{
+        type: 'area',
+        name: 'user activity',
+        pointInterval: 24 * 3600 * 1000,
+        pointStart: Date.UTC(2019,11,3),
+        data: resp
+      }]
+    }
     });
   }
-  
-  cards = [
-  { title: 'Card 1'},
-  { title: 'Card 2'},
-  { title: 'Card 3'},
-  { title: 'Card 4'}]
+
+  plotUsers(){
+    this.apiService.getUsers(this.eventName).subscribe((resp) => {
+      this.userChartOptions = {   
+        chart: {
+          zoomType: 'x'
+        },
+        title: {
+          text: 'Total Users'
+        },
+        subtitle: {
+          text: document.ontouchstart === undefined ?
+          'Click and drag in the plot area to zoom in' :
+          'Pinch the chart to zoom in'
+        },
+        xAxis:{
+          type: 'datetime',
+          minRange: 7 * 24 * 3600000 // seven days
+        },
+        yAxis: {          
+           title:{
+            text: 'Number of distinct users'
+           } 
+        },
+        legand:{
+          enabled: false
+        },
+        // tooltip: {
+        //    valueSuffix:" °C"
+        // },
+        plotOptions : {
+           area: {
+              fillColor: {
+                 linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                 stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                 ]
+              },
+              marker: {
+                 radius: 2
+              },
+              lineWidth: 1,
+              states: {
+                 hover: {
+                    lineWidth: 1
+                 }
+              },
+              threshold: null
+           }
+        },
+        series: [{
+          type: 'area',
+          name: 'users',
+          pointInterval: 24 * 3600 * 1000,
+          pointStart: Date.UTC(2019,11,3),
+          data: resp
+        }]
+      }
+      });
+  }
 }

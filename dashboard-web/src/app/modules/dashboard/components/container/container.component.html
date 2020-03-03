@@ -25,7 +25,7 @@
         <span>{{activeCategory}}</span>
       </mat-toolbar>
       <div style="text-align: center;">
-      <mat-form-field #metricsList>
+      <mat-form-field #eventList>
         <mat-select placeholder="Event Name" ngDefaultControl [(ngModel)]="activeEvent.title" (selectionChange)="eventlistChange($event)">
           <mat-option *ngFor="let event of events" value="{{event.value}}">{{event.title}}</mat-option>
         </mat-select>
@@ -33,7 +33,7 @@
       </div>
       <div [ngSwitch]="selected" *ngIf="isEventSelected">
         <app-classic *ngSwitchCase="'classic'" [(eventName)]="activeEvent.value"></app-classic>
-        <!-- <app-insights *ngSwitchCase="'insights'" [eventName]="activeEvent.value"></app-insights> -->
+        <app-insights *ngSwitchCase="'insights'" [(eventName)]="activeEvent.value"></app-insights>
       </div>
 
       </mat-sidenav-content>

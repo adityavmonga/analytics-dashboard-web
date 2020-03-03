@@ -40,10 +40,6 @@ export class ContainerComponent implements OnInit {
 		{title: 'Overall'}
 	]
 	activeCategory = this.categories[0]['title']
-	cards = [
-		{title: '1'},
-		{title: '2'}
-	]
 	constructor(public activatedRoute: ActivatedRoute) {}
 	
 	productChange(event) {
@@ -54,6 +50,7 @@ export class ContainerComponent implements OnInit {
 	changeCategory(event) {
 		this.activeCategory = event.target.innerText;
 		this.events = this.eventlist[this.activeCategory];
+		// event.isActive = !event.isActive;
 	}
 	eventlistChange(event){
 		this.activeEvent.value = event.value;

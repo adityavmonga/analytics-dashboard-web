@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './routing/dashboard-routing.module';
 import { ClassicComponent } from './components/classic/classic.component';
@@ -16,17 +16,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClassicDirective } from './directives/classic.directive';
 import { InsightsComponent } from './components/insights/insights.component';
-import { FusionChartsModule } from 'angular-fusioncharts';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
-import * as FusionCharts from 'fusioncharts';
-import * as charts from 'fusioncharts/fusioncharts.charts';
-import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardApiService } from './services/dashboard-api.service';
 
-FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 @NgModule({
-  declarations: [ClassicComponent, ContainerComponent, ClassicDirective, InsightsComponent],
+  declarations: [ClassicComponent, ContainerComponent, ClassicDirective, InsightsComponent, HighchartsChartComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -43,9 +39,9 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    FusionChartsModule
   ],
   providers: [DashboardApiService],
   exports: [ClassicComponent],
 })
-export class DashboardModule { }
+export class DashboardModule{ 
+}
