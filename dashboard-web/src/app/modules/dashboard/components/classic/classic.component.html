@@ -1,7 +1,7 @@
 <div class="grid-container">
-  <mat-grid-list *ngIf="isDataAvailable" cols="1" rowHeight="600px">
+  <mat-grid-list cols="1" rowHeight="600px">
     <mat-grid-tile *ngFor="let card of cards" [colspan]=1 [rowspan]=1>
-      <mat-card class="dashboard-card">
+      <mat-card *ngIf="card.isDataAvailable" class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
             {{card.title}}
@@ -16,11 +16,9 @@
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
           <div>
-            chartOptions --> {{card.chartOptions}}
-          <!-- <fusioncharts height="{{height}}" width="{{width}}" type="Column2d" [dataSource]="dataSource"></fusioncharts> -->
           <highcharts-chart
             [Highcharts]="highcharts"
-            [options]="activityChartOptions"
+            [options]="card.chartOptions"
             style="width: 800px; height: 400px; display: block;">
 
           </highcharts-chart>
